@@ -1,0 +1,144 @@
+@charset "UTF-8";
+*{
+    margin: 0px;
+    padding: 0px;
+}
+html,body{
+    height:100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.clearfix{
+    clear: both;
+}
+.float_left{
+    float: left;
+}
+.right_left{
+    float: right;
+}
+.top_box{
+    width:100%;
+    height:10%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+.left_box{
+    width:15%;
+    height:90%;
+    float: left;
+    padding: 5px;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.right_box{
+    width:85%;
+    height:90%;
+    float: left;
+    border-top: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 8px;
+}
+.right_box .middle_box{
+    width:50%;
+    height:80%;
+    margin: 1% auto;
+    box-sizing: border-box;
+}
+
+.right_box .middle_box .title_box{
+
+        width:100%;
+    height:34px;
+    margin: 0 auto;
+    box-sizing:border-box;
+    line-height:32px;
+    border-radius:6px;
+}
+.right_box .middle_box .title_box.border_title_box{
+    border-bottom:2px solid #ccc;
+}
+.right_box .middle_box .title_box .log_title li{
+    float: left;
+    font-size:14px;
+    font-weight:bold;
+    padding: 0px 1%;
+    width:12.5%;
+    position: relative;
+    cursor: pointer;
+    list-style: none;
+    color:#777
+}
+.right_box .middle_box .title_box .log_title li:hover,
+.right_box .middle_box .title_box .log_title li.active:hover
+{
+    color:#333;
+
+}
+.right_box .middle_box .title_box .log_title li.active{
+    background-color: #ddd;
+   }
+.right_box .middle_box .tab{
+    width: 100%;
+    height:70%;
+    margin: 4px auto;
+    padding: 10px;
+    overflow-y: scroll;
+    color: #fff;
+    display: none;
+    background-color: #337ab7;
+   /* background-color:#555;*/
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+.right_box .middle_box .title_box .log_title li .closer{
+    font-size: 12px;
+    cursor: pointer;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    color: #aaa;
+
+}
+.right_box .middle_box .title_box .log_title li .closer:hover{
+    color: #ca4747;
+}
+
+@media screen and (max-width:1600px) {
+    .left_box{
+        width:15% ;
+    }
+    .right_box{
+        width:85%;
+    }
+    .right_box .middle_box{
+        width:60%;
+    }
+}
+@media screen and (max-width:1200px){
+    .left_box{
+        width:15% ;
+    }
+    .right_box{
+        width:85%;
+    }
+    .right_box .middle_box{
+        width:85%;
+    }
+}
+@media screen and (max-width:992px){
+    .left_box{
+        width:20% ;
+    }
+    .right_box{
+        width:80%;
+    }
+    .right_box .middle_box{
+        width:95%;
+    }
+}
+@media screen and (max-width:768px){
+
+    .right_box .middle_box{
+        width:100%;
+    }
+}

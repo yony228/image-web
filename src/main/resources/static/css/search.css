@@ -1,0 +1,225 @@
+@charset "UTF-8";
+*{margin: 0px;padding: 0px;}
+.left_float{
+    float: left;
+}
+.right_float{
+    float: right;
+}
+.clearfix{
+    clear: both;
+}
+html,body{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size:16px;
+    height: 100%;
+}
+/*搜索首页、搜索信息左侧*/
+.searchField,
+.message_left
+{
+    width: 20%;
+    height:100%;
+    padding:10px;
+    float: left;
+    font-weight: bold;
+    font-size:1rem;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+.searchField div,
+.message_left div
+{
+    height:40px;
+    line-height: 40px;
+    font-size:1.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.searchField div .show_div,
+.message_left div .show_div{
+     cursor: pointer;
+}
+.searchField div.listDiv,
+.message_left div.listDiv{
+    display: none;
+    height: auto;
+    text-align: center;
+}
+.searchField div.listDiv span.glyphicon-remove:hover,
+.message_left div.listDiv span:hover
+{
+    color: #ea3e3e;
+    cursor: pointer;
+
+
+
+}
+.searchField div.listDiv .add_input,
+.message_left div.listDiv .add_input{
+   height:25px;
+   width:85%;
+    margin-right: 20px;
+}
+/*时间选择*/
+.searchField div.fixed-height,
+.message_left div.fixed-height
+{
+    height:100px;
+    width: 100%;
+    line-height: 120px;
+    border-bottom: 1px solid #ccc;
+}
+.searchField div.fixed-height .lable_div,
+.message_left div.fixed-height .lable_div{
+
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    border: 0px;
+}
+.searchField div.fixed-height .lable_div input ,
+.message_left div.fixed-height .lable_div input{
+    height:25px;
+    width:75%;
+    min-width: 80px;
+}
+@media screen and (max-width:1450px ) {
+    .searchField div.fixed-height .lable_div input,
+    .message_left div.fixed-height .lable_div input {
+        height: 25px;
+        width: 65%;
+        min-width: 85px;
+    }
+}
+@media screen and (max-width:1095px ) {
+    .searchField div.fixed-height .lable_div input,
+    .message_left div.fixed-height .lable_div input {
+        height: 25px;
+        width: 45%;
+    }
+}
+.search_right{
+    width: 80%;
+    height: 100%;
+    float: right;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+
+}
+.search_right .middle_box{
+    margin: 150px auto;
+    width: 60%;
+    position: relative;
+}
+.search_right .middle_box .enter_search{
+    width: 14px;
+    height: 15px;
+    position: absolute;
+    right: 11%;
+    cursor: pointer;
+    bottom: 20px;
+    background-image: url("../WEB-INF/freemarker/images/search01.png") ;
+}
+.search_right .middle_box .enter_search:hover{
+    background: url("../WEB-INF/freemarker/images/search02.png") no-repeat;
+}
+.search_right .middle_box label{
+    width: 80%;
+    font-weight: bold;
+    font-size:2.5rem;
+    margin: 0 auto;
+    display: block;
+}
+.search_right .middle_box input{
+    width: 80%;
+    height: 35px;
+    margin: 10px auto;
+}
+/*搜索信息*/
+.searchResult{
+    width: 60%;
+    height: 100%;
+    padding: 20px;
+    float: left;
+    line-height: 32px;
+    position: relative;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.searchResult .middle_box{
+    margin-bottom: 20px;
+    width: 370px;
+    position: relative;
+}
+.searchResult .middle_box .search_icon{
+    position: absolute;
+    width: 14px;
+    height: 15px;
+    background:url("../WEB-INF/freemarker/images/search01.png");
+    right: 20px;
+    top:10px;
+    cursor:pointer;
+}
+.searchResult .middle_box .search_icon:hover{
+    background:url("../WEB-INF/freemarker/images/search02.png") ;
+}
+.searchResult ul li{
+    float: left;
+    list-style: none;
+    margin-bottom:0px;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+    cursor:pointer;
+    border: 1px solid #ccc;
+    width: 50px;
+}
+.searchResult .search_information{
+    width: 90%;
+    height:88%;
+    border: 1px solid #ccc;
+}
+.searchResult .change_width{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right:0px;
+    top: 40%;
+    font-size: 20px;
+    background-position: -96px -49px;
+    cursor: pointer;
+}
+
+.searchResult .download{
+    position: absolute;
+   /* width: 16px;
+    height: 20px;*/
+    bottom: 30px;
+    font-size: 20px;
+    right: 3px;
+
+    cursor: pointer;
+}
+.searchResult label{
+    font-size: 2rem;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.searchResult input{
+    width: 260px;
+    height: 27px;
+    margin-left: 10px;
+}
+.message_right{
+    width: 20%;
+    height: 100%;
+    padding: 20px;
+    float: left;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+
+}
