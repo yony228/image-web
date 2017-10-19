@@ -1,0 +1,50 @@
+INSERT INTO scenes_new.roles (name, `desc`) VALUES ('普通用户', null);
+INSERT INTO scenes_new.roles (name, `desc`) VALUES ('训练用户', null);
+
+INSERT INTO scenes_new.users (name, `desc`, password) VALUES ('client', null, 'Qpf0SxOVUjUkWySXOZ16kw==');
+INSERT INTO scenes_new.users (name, `desc`, password) VALUES ('admin', null, 'Qpf0SxOVUjUkWySXOZ16kw==');
+
+INSERT INTO scenes_new.r_users_roles (user_id, role_id) VALUES (1, 1);
+INSERT INTO scenes_new.r_users_roles (user_id, role_id) VALUES (2, 2);
+
+INSERT INTO scenes_new.d_image_types (id, value, des) VALUES (1, 'jpg', 'jpg格式');
+INSERT INTO scenes_new.d_image_types (id, value, des) VALUES (2, 'png', 'png格式');
+INSERT INTO scenes_new.d_image_types (id, value, des) VALUES (3, 'bmp', 'bmp格式');
+
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('99Tanke', '99式坦克', '99式坦克', 1);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('Apache', '阿帕奇直升机', '阿帕奇直升机', 1);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('Dong_feng_dao_dan', '东风导弹', '东风导弹', 1);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('F22', 'F22', 'F22', 1);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('J10', '歼10', '歼10', 1);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('Liao_ning_hao', '辽宁号航母', '辽宁号航母', 1);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('baitian', '白天', '白天', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('caoping', '草坪', '草坪', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('che', '车', '车', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('chenshepin', '陈设品', '陈设品', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('chuwei', '厨卫', '厨卫', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('dangejiaju', '单个家具', '单个家具', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('deng', '灯', '灯', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('dengju', '灯具', '灯具', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('dianqi', '电器', '电器', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('guanmu', '灌木', '灌木', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('guizi', '柜子', '柜子', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('huahui', '花卉', '花卉', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('huanghui', '黄昏', '黄昏', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('hunningtu', '混凝土', '混凝土', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('jiaju', '家具', '家具', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('jingguanxiaopin', '景观小品', '景观小品', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('lvqiaomu', '绿乔木', '绿乔木', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('men', '门', '门', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('qiaomu', '乔木', '乔木', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('qitaxiaopin', '其他小品', '其他小品', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('renwu', '人物', '人物', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('shafa', '沙发', '沙发', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('shebei', '设备', '设备', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('shiwai', '室外', '室外', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('weishengjian', '卫生间', '卫生间', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('yejing', '夜景', '夜景', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('yizi', '椅子', '椅子', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('zhuanshi', '砖石', '砖石', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('zhuoyizuhe', '桌椅组合', '桌椅组合', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('zhuozi', '桌子', '桌子', 2);
+INSERT INTO scenes_new.classifications (classification, alias, des, model_id) VALUES ('zonglv', '棕榈', '棕榈', 2);
