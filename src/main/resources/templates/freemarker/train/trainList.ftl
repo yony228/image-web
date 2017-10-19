@@ -146,8 +146,8 @@
 </body>
 <script>
     $(function () {
-        $("#trainClass").css("color", "#d0cb16");
-//        $("#modelsManager").css("color", "#d0cb16");
+//        $("#trainClass").css("color", "#d0cb16");
+        $("#modelsManager").css("color", "#d0cb16");
 
         $("#trainTable").bootstrapTable({
             url: '${rc.contextPath}/train/queryTrainList',
@@ -210,7 +210,7 @@
                 field: 'create_time',
                 title: '开始训练时间'
             }, {
-                field: 'modelDes',
+                field: 'modelName',
                 title: '所属模型'
             }, {
                 title: '操作',
@@ -299,7 +299,7 @@
             async: false,
             success: function (result) {
                 $.each(result.modelList,function (i,item) {
-                    $("#modelId").append('<option value="' + item.id + '">' + item.des + '</option>');
+                    $("#modelId").append('<option value="' + item.id + '">' + item.name + '</option>');
                 });
             },
             error: function () {
@@ -348,7 +348,7 @@
                 field:'des',
                 title:'描述'
             },{
-                field:'modelDes',
+                field:'modelName',
                 title:'所属模型'
             },{
                 field:'count',
@@ -409,6 +409,8 @@
 
 
     //-----------------------------
+
+    //初始化添加训练窗体
     var notClassId = "";
     var numTrain = 0;
     function showAddTrain(){
@@ -428,20 +430,13 @@
         numTrain=0;
         $("#numTrain").val(numTrain);
 
-//        $("#wizard").steps('destroy');
-//        $("#wizard").steps({
-//            headerTag: "h4",
-//            bodyTag: "div",
-//            enableContentCache: false,
-//            transitionEffect: "slideLeft",
-//            autoFucus: true,
-//            onFinished: function (e, currentIndex) {
-//                submitTrain();
-//            }
-//        });
+        //todo 回到上一步
         $("#wizard").steps('previous');
 
-        $("#addTrainDiv").modal("show");
+        $("#addTrainDiv").modal({
+            backdrop:'static',//点击空白处不关闭对话框
+            show:true
+        });
     }
 
     $("#wizard").steps({
@@ -450,6 +445,23 @@
         enableContentCache: false,
         transitionEffect: "slideLeft",
         autoFucus: true,
+        onStepChanging: function (e, currentIndex, priorIndex) {
+            if (currentIndex > priorIndex)
+                return true;
+            if (priorIndex == 1) {
+                var selectRow = $("#trainClassTable").bootstrapTable('getSelections');
+                if(selectRow.length==0){
+                    swal("", "请选择要训练的分类！", "warning");
+                    return false;
+                }
+                if(numTrain==0){
+                    swal("", "请添加分类图片！", "warning");
+                    return false;
+                }
+
+                return true;
+            }
+        },
         onFinished: function (e, currentIndex) {
             submitTrain();
         }
@@ -483,15 +495,6 @@
     }
 
     function submitTrain() {
-        var selectRow = $("#trainClassTable").bootstrapTable('getSelections');
-        if(selectRow.length==0){
-            swal("", "请选择要训练的分类！", "warning");
-            return;
-        }
-        if(numTrain==0){
-            swal("", "请添加分类图片！", "warning");
-            return;
-        }
         if($("#numShard").val()==''){
             swal("", "请输入训练集分片数量！", "warning");
             return;
@@ -500,7 +503,12 @@
             swal("", "请输入验证集数量！", "warning");
             return;
         }
+        if($("#trainStepNum").val()==''){
+            swal("", "请输入训练步数！", "warning");
+            return;
+        }
 
+        var selectRow = $("#trainClassTable").bootstrapTable('getSelections');
         var classId="";
         $.each(selectRow, function (i, item) {
             classId += item.id + ",";
@@ -521,7 +529,7 @@
             success: function (result) {
                 if(result.code==100){
                     swal({   title: "",   text: "成功！",   timer: 2000 });
-                    setTimeout(location.href = "${rc.contextPath}/train/train/trainList?train_no=" + result.trainNo, 2000);
+                    setTimeout(location.href = "${rc.contextPath}/train/train/trainList", 2000);
                 }else{
                     swal({   title: "失败",   text: result.msg,   timer: 2000 });
                 }

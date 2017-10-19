@@ -46,7 +46,7 @@
             <span id="psword1" class="error"> </span>
             <button type="button" onclick="register()"  class="btn btn-success btn-block" style="background-color: #337ab7;">注册</button>
             <p class="text-success" style="text-align: right;padding: 20px;">
-                <a href="${rc.contextPath}/login">>>已有账号，去登陆</a>
+                <a href="${rc.contextPath}/login">>>已有账号，去登录</a>
             </p>
         </div>
     </form>
@@ -109,7 +109,7 @@
                 if(result.code==100){
                     swal({
                             title: "",
-                            text: "注册成功，去登陆?",
+                            text: "注册成功，去登录?",
                             type: "success",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",

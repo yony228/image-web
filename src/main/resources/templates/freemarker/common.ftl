@@ -46,18 +46,18 @@
                         <#--</ul>-->
                     <#--</li>-->
                 <#--</#if>-->
-                <#if Session["userInfo"].user.trainer>
-                    <li><a id="trainClass" href="${rc.contextPath}/train/train/trainList" style="color:#333;">训练管理</a></li>
-                </#if>
+                <#--<#if Session["userInfo"].user.trainer>-->
+                    <#--<li><a id="trainClass" href="${rc.contextPath}/train/train/trainList" style="color:#333;">训练管理</a></li>-->
+                <#--</#if>-->
                 <#if Session["userInfo"].user.trainer>
                     <li><a id="modelsManager" href="${rc.contextPath}/models/models/modelList" style="color:#333;">模型管理</a></li>
-                    <li><a id="userManager" href="${rc.contextPath}/user/user/userList" style="color:#333;">用户管理</a></li>
+                    <#if Session["userInfo"].user.name=='admin'><li><a id="userManager" href="${rc.contextPath}/user/user/userList" style="color:#333;">用户管理</a></#if></li>
                 </#if>
             </ul>
         </#if>
             <ul class="nav navbar-nav navbar-right">
             <#if Session["userInfo"]??>
-                <li><a href="#" onclick="showUpdatePasswordModel()"><span class="glyphicon glyphicon-user">${Session["userInfo"].user.name!}</span></a></li>
+                <li><a href="#" onclick="showUpdatePasswordModel()"><span id="loginUserName" class="glyphicon glyphicon-user">${Session["userInfo"].user.name!}</span></a></li>
                 <li><a href="${rc.contextPath}/common/access/logout" id="logout"><span class="glyphicon glyphicon-log-out">登出</span></a></li>
             <#else>
             <#--<li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>-->
@@ -126,6 +126,7 @@
             invalid: 'glyphicon glyphicon-remove',
             validating: 'glyphicon glyphicon-refresh'
         },
+        excluded:[':disabled'],
         fields: {
             oldPwd: {
                 validators: {
@@ -161,6 +162,11 @@
     });
 
     function showUpdatePasswordModel() {
+        $('#updatePwdForm').data('bootstrapValidator').resetForm(true);
+        $("#oldPwd").val('');
+        $("#newPwd").val('');
+        $("#newPwd1").val('');
+
         $("#updatePwdDiv").hide();
         $("#pwdDiv").show();
         $("#updatePassword").modal("show");

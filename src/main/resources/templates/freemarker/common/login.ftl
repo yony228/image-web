@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:c="http://www.w3.org/1999/html">
 <head>
 <#include "../head.ftl" />
-    <title>登陆</title>
+    <title>登录</title>
     <style>
         .error{float:right;color:red;margin-right:10px;width: 100%;text-align: right;font-size: 14px;}
 
@@ -39,7 +39,7 @@
                 <input type="password" name="password" id="password" class="form-control" placeholder="密码" onblur='checkPassword()' aria-describedby="sizing-addon1">
             </div>
             <span id="psword" class="error"> </span>
-            <button type="submit" onclick="login()"  class="btn btn-success btn-block" style="background-color: #337ab7;">登陆</button>
+            <button type="submit" onclick="login()"  class="btn btn-success btn-block" style="background-color: #337ab7;">登录</button>
             <p class="text-success" style="text-align: right;padding: 20px;">
                 <a onclick="forgetPassword()">>>忘记密码？</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -94,7 +94,7 @@
                 if(result.code==100){
                     location.href = "${rc.contextPath}/fileSearch/init";
                 }else{
-                    swal({   title: "登陆失败",   text: result.msg,   timer: 2000 });
+                    swal({   title: "登录失败",   text: result.msg,   timer: 2000 });
                 }
             },
             error: function () {
