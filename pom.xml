@@ -23,10 +23,10 @@
     </properties>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.sun.jna</groupId>
             <artifactId>jna</artifactId>
@@ -68,13 +68,9 @@
             <version>1.5.0</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-eureka</artifactId>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-eureka</artifactId>-->
         <!--</dependency>-->
-
-
-
-
 
 
         <!--<dependency>-->
@@ -139,20 +135,17 @@
         <!--<systemPath>${project.basedir}/lib/spring-boot-starter-jdbc-1.5.2.RELEASE.jar</systemPath>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>edu.nudt.das</groupId>-->
-            <!--<artifactId>image-grpc-client</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-            <!--&lt;!&ndash;<scope>system</scope>&ndash;&gt;-->
-            <!--&lt;!&ndash;<systemPath>${project.basedir}/lib/image-grpc-client-1.0-SNAPSHOT.jar</systemPath>&ndash;&gt;-->
+        <!--<groupId>edu.nudt.das</groupId>-->
+        <!--<artifactId>image-grpc-client</artifactId>-->
+        <!--<version>1.0-SNAPSHOT</version>-->
+        <!--&lt;!&ndash;<scope>system</scope>&ndash;&gt;-->
+        <!--&lt;!&ndash;<systemPath>${project.basedir}/lib/image-grpc-client-1.0-SNAPSHOT.jar</systemPath>&ndash;&gt;-->
         <!--</dependency>-->
         <dependency>
             <groupId>edu.nudt.das</groupId>
             <artifactId>image-grpc-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-
-
 
 
         <!--<dependency>-->
@@ -187,15 +180,15 @@
     </dependencies>
 
     <!--<dependencyManagement>-->
-        <!--<dependencies>-->
-            <!--<dependency>-->
-                <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-dependencies</artifactId>-->
-                <!--<version>Dalston.RC1</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
-        <!--</dependencies>-->
+    <!--<dependencies>-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.cloud</groupId>-->
+    <!--<artifactId>spring-cloud-dependencies</artifactId>-->
+    <!--<version>Dalston.RC1</version>-->
+    <!--<type>pom</type>-->
+    <!--<scope>import</scope>-->
+    <!--</dependency>-->
+    <!--</dependencies>-->
 
     <!--</dependencyManagement>-->
 
