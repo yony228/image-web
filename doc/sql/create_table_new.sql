@@ -67,13 +67,6 @@ CREATE TABLE `r_model_class` (
   `class_id` int(11) DEFAULT NULL COMMENT '分类id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `r_models_classifications` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `model_id` int(11) DEFAULT NULL COMMENT '模型标识符',
-  `classification_id` int(11) DEFAULT NULL COMMENT '分类标识符',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型分类关系表';
-
 CREATE TABLE `r_roles_authority` (
   `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
   `authority_id` int(11) NOT NULL DEFAULT '0' COMMENT '权限id',
