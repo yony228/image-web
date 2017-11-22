@@ -10,36 +10,44 @@
 </head>
 <body>
 <#include "../common.ftl" />
+
+<#if Session["userInfo"].user.trainer==false>
+    <#assign tempText="标签">
+<#else>
+    <#assign tempText="分类">
+</#if>
+
 <div class="container" style="position: relative;">
     <div class="container" style="border: 1px solid #ccc;font-size: 14px;" id="test">
         <div class="queryLable">&nbsp;&nbsp;&nbsp;&nbsp;查询条件</div>
         <input id="sessionUser" type="hidden" value=<#if Session["userInfo"].user.trainer==false>false<#else>true</#if>>
         <form id="pageForm" style="padding-top:20px;padding-left: 10px;" onsubmit="return submitQuery()">
             <div class="row">
+                <input name="classId" type="hidden" id="classId" class="form-input" value="${classId!}">
                 <div class="col-sm-4">
                     图片ID:
                     <input name="imageId" type="text" id="imageId" class="form-input" placeholder="请输入图片ID" value="${imageId!}">
                 </div>
                 <div class="col-sm-4">
-                    图片标签:
-                    <input name="className" type="text" id="className" class="form-input" placeholder="请输入图片标签" value="${className!}">
+                    图片${tempText}:
+                    <input name="className" type="text" id="className" class="form-input" placeholder="请输入图片${tempText}" value="${className!}">
                 </div>
+                <#--<#if Session["userInfo"].user.trainer==true>-->
+                    <#--<div class="col-sm-4">-->
+                        <#--&nbsp;&nbsp;&nbsp;模型:-->
+                        <#--<select class="form-input" id="modelId" name="modelId">-->
+                            <#--<option value="">请选择</option>-->
+                        <#--</select>-->
+                    <#--</div>-->
+                <#--</#if>-->
                 <#if Session["userInfo"].user.trainer==true>
                     <div class="col-sm-4">
-                        &nbsp;&nbsp;&nbsp;模型:
-                        <select class="form-input" id="modelId" name="modelId">
-                            <option value="">请选择</option>
-                        </select>
+                        批次号:
+                        <input name="batchNo" type="text" id="batchNo" class="form-input" placeholder="请输入批次号" value="${batchNo!}">
                     </div>
                 </#if>
             </div>
             <div class="row">
-            <#if Session["userInfo"].user.trainer==true>
-                <div class="col-sm-4">
-                    批次号:
-                    <input name="batchNo" type="text" id="batchNo" class="form-input" placeholder="请输入批次号" value="${batchNo!}">
-                </div>
-            </#if>
                 <div>
                     <button type="submit" onclick="submitQuery()" class="btn btn-primary" style="float: right;margin-right: 8%">查询</button>
                     <button type="reset" class="btn" style="float: right;margin-right: 1%">清空</button>
@@ -60,8 +68,8 @@
     </div>
 </div>
 
+<!--上传-->
 <div id="uploading">正在上传……</div>
-
 <div class="modal fade" id="showUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -89,25 +97,34 @@
     </div>
 </div>
 
+
+<!--修改标签-->
 <div class="modal fade" id="showEditClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="myModalLabel"></h2>
+                <h2 class="modal-title" id="myModalLabel">修改图片${tempText}</h2>
             </div>
-            <form style="font-size: 12px;" id="editImagesClass" class="form-horizontal" role="form" action="${rc.contextPath}/file/picManager/editClass" method="post">
+            <form style="font-size: 12px;" id="editImagesClass" class="form-horizontal" role="form" method="post">
                 <div class="modal-body" style="height: 200px;">
-                    <label style="width:15%;">图片id：</label><input type="text" class="form-input" id="imgId" name="imgId" readonly value="">
-                    <br>
-                    <br>
-                    <label style="width:15%;">图片标签：</label>
-                    <input style="width:80%;" id="classTags" type="text" value="" data-role="tagsinput" placeholder=添加标签<#if Session["userInfo"].user.trainer==true>(模型名-分类名)</#if> />
-                    <input type="hidden" name="classText" id="classText" value="">
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label">图片id：</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="imgId" name="imgId" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label">图片${tempText}：</label>
+                        <div class="col-lg-10">
+                            <input id="classTags" type="text" value="" data-role="tagsinput" placeholder="添加${tempText}"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" onclick="checkEditForm()" class="btn btn-sm" data-dismiss="modal">确定</button>
+                        <button type="button" onclick="checkEditForm()" class="btn btn-sm btn-primary">确定</button>
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </form>
@@ -143,7 +160,8 @@
                     imageId: $("#imageId").val(),
                     className: $("#className").val(),
                     modelId: $("#modelId").val(),
-                    batchNo: $("#batchNo").val()
+                    batchNo: $("#batchNo").val(),
+                    classId: $("#classId").val()
                 };
                 return param;
             },
@@ -159,22 +177,10 @@
                     return '<img data-original="${picUrl}' + row.url + '_1000x1000" src="${picUrl}' + row.url + '_100x100" style="height: 100px; width: 200px" onerror=this.src="../../images/invalid.jpeg">';
                 }
             },{
-                field:'classifications',
+                field:'alias',
                 title: tempColumns,
                 formatter:function (value, row, index) {
-                    var str="";
-                    for (var i = 0; i < value.length; i++) {
-                        var modelName="";
-                        if(value[i].modelName!='' && value[i].modelName!=undefined){
-                            modelName = value[i].modelName + "-";
-                        }
-
-                        if (i == value.length - 1) {
-                            str += modelName + value[i].alias;
-                        } else {
-                            str += modelName + value[i].alias + ",";
-                        }
-                    }
+                    var str = row.alias;
                     return str + "<input id='class_" + row.id + "' type='hidden' value=" + str + ">";
                 }
             },{
@@ -205,22 +211,22 @@
             $("#picTable").bootstrapTable("hideColumn",'batchNo');
         }
 
-        //初始化模型选择下拉框
-        $.ajax({
-            type: 'post',
-            url: "${rc.contextPath}/models/queryModels",
-            data: {},
-            dataType: 'json',
-            async: false,
-            success: function (result) {
-                $.each(result.modelList,function (i,item) {
-                    $("#modelId").append('<option value="' + item.id + '">' + item.des + '</option>');
-                });
-            },
-            error: function () {
-                swal("", "系统错误，请联系管理员！", "error");
-            }
-        });
+        <#--//初始化模型选择下拉框-->
+        <#--$.ajax({-->
+            <#--type: 'post',-->
+            <#--url: "${rc.contextPath}/models/queryModels",-->
+            <#--data: {},-->
+            <#--dataType: 'json',-->
+            <#--async: false,-->
+            <#--success: function (result) {-->
+                <#--$.each(result.modelList,function (i,item) {-->
+                    <#--$("#modelId").append('<option value="' + item.id + '">' + item.name + '</option>');-->
+                <#--});-->
+            <#--},-->
+            <#--error: function () {-->
+                <#--swal("", "系统错误，请联系管理员！", "error");-->
+            <#--}-->
+        <#--});-->
     });
 
     function getDateTime(value, row, index) {
@@ -351,8 +357,33 @@
     }
 
     function checkEditForm() {
-        $("#classText").val($("#classTags").tagsinput("items"));
-        $("#editImagesClass").submit();
+        var classText = $("#classTags").tagsinput("items");
+        if(classText==''){
+            swal("提示", "图片标签不能为空！", "warning");
+            return;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: "${rc.contextPath}/file/picManager/editClass",
+            data: {
+                'imgId': $("#imgId").val(),
+                'classText': classText + ","
+            },
+            dataType: 'json',
+            async: false,
+            success: function (result) {
+                if (result.code == 100) {
+                    $("#picTable").bootstrapTable('refreshOptions',{pageNumber:1});
+                    $("#showEditClass").modal("hide");
+                } else {
+                    swal({title: "失败", text: result.msg, timer: 2000});
+                }
+            },
+            error: function () {
+                swal("", "系统错误，请联系管理员！", "error");
+            }
+        });
     }
 </script>
 </html>

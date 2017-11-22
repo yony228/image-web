@@ -36,14 +36,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;模型:
-                    <select class="form-input" id="queryModelId" name="queryModelId">
-                        <option value="">请选择</option>
-                    </select>
-                </div>
+                <#--<div class="col-sm-4">-->
+                    <#--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;模型:-->
+                    <#--<select class="form-input" id="queryModelId" name="queryModelId">-->
+                        <#--<option value="">请选择</option>-->
+                    <#--</select>-->
+                <#--</div>-->
                 <div>
-                    <button type="submit" onclick="submitQuery()" class="btn btn-primary" style="float: right;margin-right: 8%">查询</button>
+                    <button type="submit" class="btn btn-primary" style="float: right;margin-right: 8%">查询</button>
                     <button type="reset" class="btn" style="float: right;margin-right: 1%">清空</button>
                 </div>
             </div>
@@ -52,6 +52,7 @@
     <br>
     <div style="position: absolute;">
         <button type="button" onclick="addClass()" class="btn btn-primary">添加分类</button>
+        <#if Session["userInfo"].user.name=='admin'><button type="button" onclick="showTagsDiv()" class="btn btn-primary">复制标签</button></#if>
     </div>
     <br><br>
     <div class="form-group" style="font-size: 14px;background-color: white">
@@ -59,33 +60,34 @@
     </div>
 </div>
 
+<!--添加修改分类-->
 <div class="modal fade" id="showEditClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="myModalLabel"></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title" id="editClassModalLabel"></h2>
             </div>
-            <form style="font-size: 12px;" id="editClass" class="form-horizontal" role="form" action="${rc.contextPath}/classification/addClassification" method="post">
-                <div class="modal-body" style="height: 220px;">
+            <form style="font-size: 12px;" id="editClass" class="form-horizontal" role="form" method="post">
+                <div class="modal-body" style="height: auto">
                     <input type="text" class="form-input" id="classificationId" name="classificationId" value="" style="display: none">
-                    <div style="display: none">
-                    &nbsp;&nbsp;&nbsp;所属模型：
-                    <select class="form-input" id="modelId" name="modelId">
-                        <option value="0">请选择</option>
-                    </select>
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label">分类名称：</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="classAlias" name="classAlias" value="">
+                        </div>
                     </div>
-                    <br><br>
-                    &nbsp;&nbsp;&nbsp;分类名称：<input type="text" class="form-input" id="classAlias" name="classAlias" value="">
-                    <#--<br><br>-->
-                    <#--&nbsp;&nbsp;&nbsp;分类别名：<input type="text" class="form-input" id="classClassification" name="classClassification" value="">-->
-                    <br><br>
-                    &nbsp;&nbsp;&nbsp;分类描述：<input type="text" class="form-input" id="classDes" name="classDes" value="">
-                    <br>
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label">分类描述：</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="classDes" name="classDes" value="">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" onclick="checkEditForm()" class="btn btn-sm btn-primary" data-dismiss="modal">确定</button>
+                        <button type="button" onclick="checkEditForm()" class="btn btn-sm btn-primary">确定</button>
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </form>
@@ -93,6 +95,33 @@
     </div>
 </div>
 
+<!--复制普通用户公开的标签-->
+<div class="modal fade" id="showPublicTagDiv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">普通用户标签</h4>
+            </div>
+            <div class="modal-body" style="font-size: 14px;">
+                <form id="tagDivForm" onsubmit="return queryTags()">
+                    标签名称：
+                    <input name="tagAlias" type="text" id="tagAlias" class="form-input" placeholder="请输入标签名称" value="">
+                    <button type="submit"  class="btn btn-primary" style="float: right;">查询</button>
+                    <br><br>
+                    <table id="showPublicTagTable"></table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上传图片-->
 <div class="modal fade" id="showUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,24 +134,31 @@
             <form id="myfileForm" class="form-horizontal" role="form" action="${rc.contextPath}/classification/uploadFile"
                   method="post" enctype="multipart/form-data">
                 <div class="modal-body" style="height: 300px;">
-                    <label for="uploadClassId">分类标识符</label>
-                    <input id="uploadClassId" value="" class="form-input" width="100px;" name="classificationId" readonly >
-                    <br><br>
-                <#--<label for="uploadClassification">分类名称</label>-->
-                <#--<input id="uploadClassification" value="" class="form-input" width="100px;" readonly="readonly">-->
-                <#--<br><br>-->
-                    <label for="uploadAlias">分类名称</label>
-                    <input id="uploadAlias" value="" class="form-input" width="100px;" readonly="readonly">
-                    <br><br>
-                    <label for="uploadDes">分类描述</label>
-                    <input id="uploadDes" value="" class="form-input" width="100px;" readonly="readonly">
-                    <br><br>
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label" for="uploadClassId">分类标识</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-input" id="uploadClassId" name="classificationId" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label" for="uploadAlias">分类名称</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-input" id="uploadAlias" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2 control-label" for="uploadDes">分类描述</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-input" id="uploadDes" value="" readonly>
+                        </div>
+                    </div>
                     <input style="border: 1px solid #ccc;" name="file" type="file" value="本地上传图片" id="fileInput" class="form-control" multiple>
                     <label style="width: 100%">(只允许上传jpg或zip格式文件)</label>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="button" onclick="checkForm()" class="btn btn-sm btn-primary" data-dismiss="modal">确定</button>
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </form>
@@ -133,25 +169,24 @@
 </body>
 <script>
     $(function () {
-        //初始化模型选择下拉框
-        $.ajax({
-            type: 'post',
-            url: "${rc.contextPath}/models/queryModels",
-            data: {},
-            dataType: 'json',
-            async: false,
-            success: function (result) {
-                $.each(result.modelList,function (i,item) {
-                    $("#modelId").append('<option value="' + item.id + '">' + item.des + '</option>');
-                    $("#queryModelId").append('<option value="' + item.id + '">' + item.des + '</option>');
-                });
+        <#--//初始化模型选择下拉框-->
+        <#--$.ajax({-->
+            <#--type: 'post',-->
+            <#--url: "${rc.contextPath}/models/queryModels",-->
+            <#--data: {},-->
+            <#--dataType: 'json',-->
+            <#--async: false,-->
+            <#--success: function (result) {-->
+                <#--$.each(result.modelList,function (i,item) {-->
+                    <#--$("#queryModelId").append('<option value="' + item.id + '">' + item.name + '</option>');-->
+                <#--});-->
 
-                $("#queryModelId").val(${modelId!});
-            },
-            error: function () {
-                swal("", "系统错误，请联系管理员！", "error");
-            }
-        });
+                <#--$("#queryModelId").val(${modelId!});-->
+            <#--},-->
+            <#--error: function () {-->
+                <#--swal("", "系统错误，请联系管理员！", "error");-->
+            <#--}-->
+        <#--});-->
 
         $("#classManager").css("color", "#d0cb16");
 
@@ -175,13 +210,11 @@
                     alias: $("#alias").val(),
                     classification: $("#classification").val(),
                     des: $("#des").val(),
-                    modelId: $("#queryModelId").val()
+//                    modelId: $("#queryModelId").val()
                 };
                 return param;
             },
             columns:[{
-                checkbox:true
-            },{
                 field:'id',
                 title:'ID'
             },{
@@ -194,24 +227,88 @@
                 field:'des',
                 title:'描述'
             },{
-                field:'modelDes',
-                title:'所属模型'
-            },{
                 field:'count',
                 title:'图片数量',
                 formatter: function (value, row, index) {
-                    return "<a target='_blank' href='${rc.contextPath}/file/file/fileList?className=" + row.alias + "'>" + value + "张</a>";
+                    return "<a target='_blank' href='${rc.contextPath}/file/file/fileList?classId=" + row.id + "'>" + value + "张</a>";
                 }
             },{
                 title:'操作',
                 formatter:function (value, row, index) {
-                    var str = "";
-                    if(row.modelDes=='' || row.modelDes==undefined){
-                        str = '<a onclick=updateClass("' + row.id + '","' + row.classification + '","' + row.alias + '","' + row.des + '","' + row.model_id + '")>修改</a>';
-                    }
+                    var str = '<a onclick=updateClass("' + row.id + '","' + row.alias + '","' + row.des + '")>修改</a>';
                     str += '&nbsp;&nbsp;&nbsp;<a onclick=delClass("' + row.id + '")>删除</a>'
                             + '&nbsp;&nbsp;&nbsp;<a onclick=showUpload("' + row.id + '","' + row.classification + '","' + row.alias + '","' + row.des + '")>添加图片</a>';
                     return str;
+                }
+            }]
+        });
+
+        //表单验证
+        $('#editClass').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            excluded:[':disabled'],
+            fields: {
+                classAlias: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入分类名称'
+                        }
+                    }
+                }
+            }
+        });
+
+
+        //查询公开标签
+        $("#showPublicTagTable").bootstrapTable({
+            cache:false,
+            url:'${rc.contextPath}/tag/queryPublicTagList',
+            method:'post',
+            contentType:"application/x-www-form-urlencoded",
+            dataType:"json",
+            pagination:true,
+            pageNumber:1,
+            pageSize:10,
+            striped:true,
+            sidePagination:"server",
+            pageList:[10],
+            queryParamsType:'',
+            queryParams:function queryParams(params){
+                var param = {
+                    pageNumber: params.pageNumber,
+                    pageSize: params.pageSize,
+                    alias: $("#tagAlias").val()
+                };
+                return param;
+            },
+            columns:[{
+                field:'id',
+                title:'ID'
+            },{
+                field:'alias',
+                title:'标签名称'
+            },{
+                field:'des',
+                title:'描述'
+            },{
+                field:'count',
+                title:'图片数量',
+                formatter: function (value, row, index) {
+                    return '<a>'+ value + '张</a>';
+                }
+            },{
+                field:'userName',
+                title:'所属用户'
+            },{
+                field:'',
+                title:'操作',
+                formatter: function (value, row, index) {
+                    return '<a onclick=copyTags("' + row.id + '","'+ row.alias +'")>复制</a>';
                 }
             }]
         });
@@ -222,9 +319,8 @@
         return false;
     }
 
-    function showUpload(classId,classification,alias, des) {
+    function showUpload(classId,alias, des) {
         $("#uploadClassId").val(classId);
-//        $("#uploadClassification").val(classification);
         $("#uploadAlias").val(alias);
         $("#uploadDes").val(des);
         $("#showUpload").modal("show");
@@ -242,39 +338,40 @@
     }
 
     function addClass() {
+        $('#editClass').data('bootstrapValidator').resetForm(true);
+
         $("#classificationId").val('');
-//        $("#classClassification").val('');
         $("#classAlias").val('');
         $("#classDes").val('');
-        $("#modelId").val('0');
+
+        $("#editClassModalLabel").html("添加分类");
         $("#showEditClass").modal("show");
     }
 
-    function updateClass(classId, classification, alias, des, modelId) {
+    function updateClass(classId, alias, des) {
+        $('#editClass').data('bootstrapValidator').resetForm(true);
+
         $("#classificationId").val(classId);
-//        $("#classClassification").val(classification);
         $("#classAlias").val(alias);
         $("#classDes").val(des);
-        $("#modelId").val(modelId);
+
+        $("#editClassModalLabel").html("修改分类");
         $("#showEditClass").modal("show");
     }
 
     function checkEditForm() {
-//        var classification=$("#classClassification").val();
         var des = $("#classDes").val();
         var alias = $('#classAlias').val();
         var classificationId = $("#classificationId").val();
-        var modelId = $("#modelId").val();
 
-//        if(modelId=='0'){
-//            swal("", "请选择所属模型！", "warning");
-//            return;
-//        }
-        if(alias==''){
-            swal("提示", "请输入分类名！", "warning");
-            return;
+        //表单验证
+        var data = $('#editClass').data('bootstrapValidator');
+        if(data){
+            data.validate();
+            if(!data.isValid()){
+                return;
+            }
         }
-
 
         var url = "${rc.contextPath}/classification/addClassification";
         if (classificationId != '') {
@@ -285,14 +382,13 @@
                 url: "${rc.contextPath}/classification/checkSameClass",
                 data: {
                     'alias':alias,
-                    'modelId': modelId,
                     'classificationId': classificationId
                 },
                 dataType: 'json',
                 async: false,
                 success: function (result) {
                     if(result.code==100){
-                        submitEidt(url,classificationId, alias, des, modelId);
+                        submitEdit(url,classificationId, alias, des);
                     }else{
                         swal({
                             title: "",
@@ -305,7 +401,7 @@
                             closeOnConfirm: true
                         }, function (isConfirm) {
                             if (isConfirm) {
-                                submitEidt(url,classificationId, alias, des, modelId);
+                                submitEdit(url,classificationId, alias, des);
                             }
                         });
                     }
@@ -315,25 +411,25 @@
                 }
             });
         }else {
-            submitEidt(url,classificationId, alias, des, modelId);
+            submitEdit(url,classificationId, alias, des);
         }
     }
-    function submitEidt(url,classificationId, alias, des, modelId) {
+
+    function submitEdit(url,classificationId, alias, des) {
         $.ajax({
             type: 'post',
             url: url,
             data: {
                 'classificationId': classificationId,
-//                'classification':classification,
                 'alias': alias,
-                'des': des,
-                'modelId': modelId
+                'des': des
             },
             dataType: 'json',
             async: false,
             success: function (result) {
                 if (result.code == 100) {
                     $("#classTable").bootstrapTable('refreshOptions',{pageNumber:1});
+                    $("#showEditClass").modal("hide");
                 } else {
                     swal({title: "失败", text: result.msg, timer: 2000});
                 }
@@ -375,6 +471,83 @@
                         swal("", "系统错误，请联系管理员！", "error");
                     }
                 });
+            }
+        });
+    }
+
+    function showTagsDiv(){
+        $("#showPublicTagDiv").modal("show");
+        $("#showPublicTagTable").bootstrapTable('refreshOptions',{pageNumber:1});
+    }
+
+    function queryTags(){
+        $("#showPublicTagTable").bootstrapTable('refreshOptions',{pageNumber:1});
+        return false;
+    }
+
+    //复制用户标签为分类
+    function copyTags(tagId,alias) {
+        swal({
+            title: "",
+            text: "是否确认复制该标签及其图片到分类？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确认",
+            cancelButtonText: "取消",
+            closeOnConfirm: false
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    type: 'post',
+                    url: "${rc.contextPath}/classification/checkSameClass",
+                    data: {
+                        'alias':alias
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function (result) {
+                        if(result.code==100){
+                            submitCopyTag(tagId);
+                        }else{
+                            swal({
+                                title: "",
+                                text: "该标签与现有分类名重复，是否确认合并？",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "确认",
+                                cancelButtonText: "取消",
+                                closeOnConfirm: true
+                            }, function (isConfirm) {
+                                if (isConfirm) {
+                                    submitCopyTag(tagId);
+                                }
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal("", "系统错误，请联系管理员！", "error");
+                    }
+                });
+            }
+        });
+    }
+
+    function submitCopyTag(tagId) {
+        $.ajax({
+            type: 'post',
+            url: "${rc.contextPath}/classification/copyTags",
+            data: {
+                'tagId':tagId
+            },
+            dataType: 'json',
+            async: false,
+            success: function (result) {
+                location.href = "${rc.contextPath}/classification/classifications/classList";
+            },
+            error: function () {
+                swal("", "系统错误，请联系管理员！", "error");
             }
         });
     }

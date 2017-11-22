@@ -7,7 +7,7 @@
     </style>
 </head>
 <body style="background-color: #333;color: white">
-<div class="container" style="position: relative;">
+<div class="container" style="margin-left: 10px;">
     <div id="log-container">
         <input id="train_no" type="hidden" value="${train_no!}">
         <input id="lastFileSize" type="hidden" value="">

@@ -54,8 +54,6 @@
                 return param;
             },
             columns: [{
-                checkbox: true
-            }, {
                 field: 'name',
                 title: '用户名'
             }, {

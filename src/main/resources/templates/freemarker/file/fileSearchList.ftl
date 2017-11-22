@@ -73,7 +73,7 @@
 		var scrollTop = $(window).scrollTop();
         var viewH = $(window).height();
         var docH = $(document).height();
-		var bot = 0;
+		var bot = 5;
 
         if ((bot + scrollTop) >= (docH - viewH)) {
         	var nowPage = $("#nowPage").val() * 1 + 1;
